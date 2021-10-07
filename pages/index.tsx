@@ -9,6 +9,7 @@ import { Searcher } from '../src/components/Searcher/Searcher'
 import { TagBox } from '../src/components/TagBox/TagBox'
 import { TagInterface } from '../src/models/TagInterface'
 import { getTags, save_tags } from '../src/shared/services/api'
+import { useRouter } from 'next/router'
 
 const ToolsBox = styled.div`
     display: flex;
@@ -46,12 +47,20 @@ function useForceUpdate(){
 
 const Home: React.FC = () => {
 
+  const router = useRouter()
+
   const forceUpdate = useForceUpdate();
 
   const [tagsList, setTagsList] = useState<TagInterface[]>([])
   const [initList, setInitList] = useState<TagInterface[]>([])
   const [selectedList, setSelectedList] = useState<TagInterface[]>([])
   const [search, setSearch] = useState<string>("")
+
+  const getId = () => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+  const params = Object.fromEntries(urlSearchParams.entries());
+  return params.tg_id;
+  }
 
   useEffect(() => {
     getTags().then(tags => {
@@ -80,6 +89,14 @@ const Home: React.FC = () => {
     }
     forceUpdate()
   }
+
+  const send = () => {
+    save_tags(selectedList, +getId()).then(() =>{
+      router.push("/goback/")
+    }).catch(()=>{
+      alert("Что-то пошло не так(( Напишите, пожалуйста в тг @abakunov")
+    })
+  }
  
   return (
     <>
@@ -97,7 +114,7 @@ const Home: React.FC = () => {
         }
         </ToolsBoxRow>
         <br></br>
-        <ToolsSaveButton onClick={() =>save_tags(selectedList)}>Сохранить!</ToolsSaveButton>
+        <ToolsSaveButton onClick={send}>Сохранить!</ToolsSaveButton>
         <br></br>
         <br></br>
         <ToolsHeader>Все профессии:</ToolsHeader>

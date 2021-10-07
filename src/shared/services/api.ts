@@ -5,9 +5,9 @@ export const getTags  = async () : Promise<TagInterface[]> => {
     return tags
 }
 
-export const save_tags = async (tags: TagInterface[]) => {
+export const save_tags = async (tags: TagInterface[], uid: number) => {
 
-    fetch("http://80.78.246.198:8000/api/select_tags/", {
+    return fetch("http://80.78.246.198:8000/api/select_tags/", {
         method: "POST",
         headers:{
             'Content-Type': 'application/json'
