@@ -13,7 +13,7 @@ export const save_tags = async (tags: TagInterface[], uid: number) => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            user_id: 425974638,
+            user_id: uid,
             selected_tags : tags.map(tag=>tag.id)
         })
     })
