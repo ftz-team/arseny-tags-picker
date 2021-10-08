@@ -75,7 +75,7 @@ const Home: React.FC = () => {
     if (search==""){
       setTagsList(initList)
     }else{
-      setTagsList(initList.filter(tag => tag.name.startsWith(search)));
+      setTagsList(initList.filter(tag => tag.name.toLowerCase().startsWith(search.toLowerCase())));
     }
   }
 
